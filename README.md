@@ -73,6 +73,24 @@ Eftirfarandi skipanir sýna hvernig orðabækurnar eru útbúnar á Debian og Ub
 	# generate LibreOffice & Firefox extensions
 	make packages
 
+Eftirfarandi skipanir eru fyrir arch linux stýrikerfi
+
+	# install dependencies
+	sudo pacman -S bzip2 gawk bash ed coreutils make wget hunspell libmythes git python3 python3-pip python-mwparserfromhell
+	sudo locale-gen is_IS.UTF-8
+	
+	# fetch hunspell-is
+	git clone https://github.com/nifgraup/hunspell-is
+	cd hunspell-is
+
+	# generate the dictionary & thesaurus, the libmythes file location has to be updated in the makefile
+	make
+	
+	# run correctness test on generated files
+	make check
+
+	# generate LibreOffice & Firefox extensions
+	make packages
 
 Notkunarleyfi
 -------------

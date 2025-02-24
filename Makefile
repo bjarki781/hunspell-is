@@ -1,3 +1,5 @@
+# uncomment this line if you are on arch
+# TH_GEN_IDX=/usr/bin/th_gen_idx.pl
 TH_GEN_IDX=/usr/share/mythes/th_gen_idx.pl
 
 .PHONY: all clean check check-rules check-thes packages
@@ -93,7 +95,7 @@ dicts/th_%.dat: makethes.awk %wiktionary-latest-pages-articles.xml sortthes.py
 	LC_ALL=is_IS.utf8 ${TH_GEN_IDX} -o $@ < $<
 
 iswiktionary-latest-pages-articles.xml.bz2:
-	wget http://dumps.wikimedia.org/iswiktionary/latest/$@ -O $@
+	wget https://dumps.wikimedia.org/iswiktionary/latest/$@ -O $@
 	touch $@
 
 iswiktionary-latest-pages-articles.xml: iswiktionary-latest-pages-articles.xml.bz2
