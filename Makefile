@@ -1,6 +1,7 @@
-# uncomment this line if you are on arch
-# TH_GEN_IDX=/usr/bin/th_gen_idx.pl
-TH_GEN_IDX=/usr/share/mythes/th_gen_idx.pl
+# for arch linux
+TH_GEN_IDX=/usr/bin/th_gen_idx.pl
+# for ubuntu/debian based distros
+# TH_GEN_IDX=/usr/share/mythes/th_gen_idx.pl
 
 .PHONY: all clean check check-rules check-thes packages
 
@@ -51,8 +52,13 @@ check-morph: dicts/is.dic dicts/is.aff
 	@test -z "`hunspell -m -d dicts/is < langs/is/test.good | diff -q langs/is/test.morph -`" || { echo "Morphology test failed: `hunspell -m -d dicts/is < langs/is/test.good | diff langs/is/test.morph -`"; exit 1; };
 	@echo "Morphology tests passed."
 
-packages: dicts/is.oxt dicts/is.xpi dicts/SentenceExceptList.xml
+packages: dicts/is.oxt dicts/is.xpi dicts/SentenceExceptList.xml dicts/hunspell-is-0.1-1-any.pkg.tar.zst
 
+# AUR package
+dicts/hunspell-is-0.1-1-any.pkg.tar.zst: dicts/is.dic dicts/is.aff dicts/th_is.dat dicts/th_is.idx
+	rm -rf $@ aur-tmp
+	cp -rf packages/aur aur-tmp
+	cd aur-tmp; mkdir dictionaries; cp ../dicts/is.dic ../dicts/is.aff dictionaries/; tar czf hunspell-is-0.1.tar.gz *; makepkg -g >> PKGBUILD && makepkg; cp hunspell-is-0.1-1-any.pkg.tar.zst ../dicts
 # LibreOffice extension
 dicts/is.oxt: %.oxt: %.aff %.dic dicts/th_is.dat dicts/th_is.idx \
 		packages/libreoffice/META-INF/manifest.xml \
